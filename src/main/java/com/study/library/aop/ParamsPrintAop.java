@@ -29,4 +29,10 @@ public class ParamsPrintAop {//0313-4
         return proceedingJoinPoint.proceed();
     }
 
+    @Aspect
+    @Component
+    public static class ValidAop {
+        @Pointcut("@annotation(com.study.library.aop.annotation.ValidAspect)")
+        private void pointCut() {}
+    }
 }

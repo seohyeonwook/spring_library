@@ -1,6 +1,7 @@
 package com.study.library.controller;
 
 import com.study.library.aop.annotation.ParamsPrintAspect;
+import com.study.library.aop.annotation.ValidAspect;
 import com.study.library.dto.SignupReqDto;
 import com.study.library.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ public class AuthController { //0313 -2
     @Autowired
     private AuthService authService;
 
+    @ValidAspect
     @ParamsPrintAspect
     @PostMapping("/signup") //포스트 요청이면 제이슨으로 들고온다
     public ResponseEntity<?> signup(@Valid @RequestBody SignupReqDto signupReqDto, BindingResult bindingResult) { //aop에서 바로바로 확인가능
@@ -33,28 +35,20 @@ public class AuthController { //0313 -2
             bindingResult.addError(objectError);
         }
 
-        if(bindingResult.hasErrors()) { //유효성 검사 //0314-1
-            //error가 있으면
-            List<FieldError> fieldErrors = bindingResult.getFieldErrors();
-            // getFieldErrors 처럼 s로끝나면 배열로 들고오거나 리스트로 들고온다고 추측해야함 마우스 올려보면 리스트 뜸
-            // list<자료형>  변수명
-            Map<String, String> errorMap = new HashMap<>();
-            // error 들을 키밸류로 담기위해서 errorMap만든다
-            for (FieldError fieldError : fieldErrors) {
-                // ieldErrors의 요소를 fieldError에 할당 =>  fieldErrors에 들어있는 값을 담는 그릇이 fieldError
-                String fieldName = fieldError.getField(); // dto변수명
-                String message = fieldError.getDefaultMessage(); // 메세지내용
-                errorMap.put(fieldName,message);
-            }
-            return ResponseEntity.badRequest().body(errorMap);
-            // map사용법 알기***********************************************
-        }
-
         authService.signup(signupReqDto);
 
         return ResponseEntity.created(null).body(true);
     }
 }
+
+// 순서 - 리액트 -> 시큐리티 ->컨트롤러(auth) -> 제이슨이 dto로 변해서 들어옴 -> dto정규식(형식) 걸어둠 -> valid로 유효성 검사해라
+// binding 에 넣어서 에러있으면 t 없으면 f -> 데이터를 받을때 유효해야지만 받아준다. 받을때마다 쓰니까 aop로 뺀다
+// 그리고 어노테이션 @validAspect달면 자동으로 유효성 검사 문제있으면 자동으로 응답한다 유효성 검사 끝나면 -> 서비스 에서 중복체크 -> dto -> entity ->
+// 암호화 -> BCr머어쩌고저쩌고  거기에 문자열로 뭔갈 넣으면 다 암호화 해준다 디티오를 엔티티로 변환하는 중간에 암호화 시킨다 이걸 toentity안에서 한다 이건 디티오에있다
+// 디티오는 빈이아니라서 ㅅㅣ큐리티컨피그 에서 빈등록 -> 빈등록되면 ioc 등록 그럼 오토와이어드 쓸수있는데
+// dto는 빈이아니라서 서비스에서 매개변수로 넘겨준다.(ioc를 어떻게 사용할것인가에대한 고민) role(권한) 유저등록할때 권한도 하나같이 등록해준다
+// 유저 테이블이랑 롤레지스터 테이블  한세트 둘중에 하나라도 실패하면 롤백 시킬수있겠금 트렌젝셔널 단다 롤백포에 예외
+// 레파지토리 -> 디비저장
 
 // http - 1.url - 요청 메세지 (내가 무엇을 요청하는가) - 요청할때 쓴다 서버는 무조건 응답해준다
 //        2.methed - 요청에 대한 구분 ,type //
