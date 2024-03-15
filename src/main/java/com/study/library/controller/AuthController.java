@@ -2,6 +2,7 @@ package com.study.library.controller;
 
 import com.study.library.aop.annotation.ParamsPrintAspect;
 import com.study.library.aop.annotation.ValidAspect;
+import com.study.library.dto.SigninReqDto;
 import com.study.library.dto.SignupReqDto;
 import com.study.library.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,17 +28,18 @@ public class AuthController { //0313 -2
     @ValidAspect
     @ParamsPrintAspect
     @PostMapping("/signup") //포스트 요청이면 제이슨으로 들고온다
+
     public ResponseEntity<?> signup(@Valid @RequestBody SignupReqDto signupReqDto, BindingResult bindingResult) { //aop에서 바로바로 확인가능
                                     // signupReqDto 형식을 @Valid 로 검사하겠다 여기서나는 오류를 bindingResult로 담아준다
-
-        if (authService.isDuplicatedByUsername(signupReqDto.getUsername())) {
-            ObjectError objectError = new FieldError( "username", "username", "이미 존재하는 사용자 이름입니다");
-            bindingResult.addError(objectError);
-        }
 
         authService.signup(signupReqDto);
 
         return ResponseEntity.created(null).body(true);
+    }
+
+    @PostMapping("/signin")
+    public ResponseEntity<?> signin(@RequestBody SigninReqDto signinReqDto) {
+        return ResponseEntity.ok(authService.signin(signinReqDto));
     }
 }
 
