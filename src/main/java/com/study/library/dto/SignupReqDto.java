@@ -29,4 +29,7 @@ public class SignupReqDto {//0313-3
                 .email(email)
                 .build();
     }
+
+    // CryptPasswordEncoder는 스프링 시큐리티에서 제공하는 클래스로, 안전한 방식으로 비밀번호를 암호화하는 데 사용됩니다.
+    // encode() 메서드는 비밀번호를 암호화하는 데 사용되며, 이 메서드를 호출하여 사용자의 비밀번호를 암호화
 }

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 
-public class RoleRegister {
+public class RoleRegister {// userid랑 roleid 연결 하는것
     private int roleRegisterId;
     private int userId;
     private int roleId;

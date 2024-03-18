@@ -18,12 +18,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Aspect
-@Component
-public class ValidAop {
+@Aspect //이 클래스가 스프링 AOP에서 Aspect를 정의하는 클래스임을 나타냅니다.
+@Component //  스프링 컨테이너에 이 클래스를 빈으로 등록하라는 것을 나타냅니다.
+            // 이 클래스를 다른 빈에서 주입받아 사용할 수 있게 됩니다.
+public class ValidAop { // Valid = 유효한
+    //유효성 검사 수행
 
     @Autowired
     private UserMapper userMapper;
+    // 클래스를 주입받기 위한 필드입니다. 이 필드를 통해 데이터베이스와 상호작용할 수 있습니다.
 
     @Pointcut("@annotation(com.study.library.aop.annotation.ValidAspect)")
     private void pointCut() {}
@@ -31,7 +34,8 @@ public class ValidAop {
     @Around("pointCut()")
     public Object around(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         String methodName = proceedingJoinPoint.getSignature().getName();
-
+        // ProceedingJoinPoint = 인터페이스 = 메소드 실행 전이나 후에 추가적인 동작을 수행할 때 사용
+        // getName 현재 실행 중인 메소드의 이름을 가져옵니다.
         Object[] args = proceedingJoinPoint.getArgs();
 
         BeanPropertyBindingResult bindingResult = null;

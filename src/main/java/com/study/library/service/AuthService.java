@@ -19,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 @Service
+
+// 비즈니스 로직을 처리하는 서비스 클래스가 위치합니다. 데이터 처리 및 비즈니스 규칙 구현 등을 담당합니다.
+
 public class AuthService {//0314-6
 
     @Autowired

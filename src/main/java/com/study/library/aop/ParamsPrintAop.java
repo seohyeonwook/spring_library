@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Aspect // aop 디펜던시 넣어줘야함
 @Component
+
+// 애플리케이션의 여러 부분에서 공통으로 적용되는 기능(예: 로깅, 트랜잭션 관리)을 분리하여 관리하는 패키지
+
 public class ParamsPrintAop {//0313-4
     @Pointcut("@annotation(com.study.library.aop.annotation.ParamsPrintAspect)")
     private void pointCut() {}

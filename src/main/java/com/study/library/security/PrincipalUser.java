@@ -12,6 +12,9 @@ import java.util.List;
 
 @Builder
 @Data
+
+// 보안 관련 기능을 다루는 패키지입니다. 사용자의 인증 및 권한 부여를 처리합니다.
+
 public class PrincipalUser implements UserDetails {
     private int userId;
     private String username;

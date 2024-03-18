@@ -39,15 +39,15 @@ public class User {//0314 -3
                     new SimpleGrantedAuthority(roleRegister.getRole().getRoleName()))
                 .collect(Collectors.toList());
     }
-//
-//    public PrincipalUser toPrincipalUser() {
-//        return PrincipalUser.builder()
-//                .userId(userId)
-//                .username(username)
-//                .name(name)
-//                .email(email)
-//                .authorities(getAuthorities())
-//                .build();
-//    }
+
+    public PrincipalUser toPrincipalUser() {
+        return PrincipalUser.builder()
+                .userId(userId)
+                .username(username)
+                .name(name)
+                .email(email)
+                .authorities(getAuthorities())
+                .build();
+    }
 
 }
